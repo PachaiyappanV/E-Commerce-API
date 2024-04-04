@@ -10,20 +10,29 @@ const morgan = require("morgan");
 //database
 const { connectDB } = require("./db/connect");
 
+//routers
+const authRouter = require("./routes/authRoutes");
+
 //middleware
-const { notFound } = require("./middleware/not-found");
+const { notFoundMiddleware } = require("./middleware/not-found");
 const { errorHandlerMiddleware } = require("./middleware/errorhandler");
 
 app.use(morgan("tiny"));
-app.get("/", (req, res) => {
-  res.send("hello from home");
-});
+app.use(express.json());
 
-app.use(notFound);
+app.get("/", (req, res) => {
+  res.send("e commerce");
+});
+app.use("/api/v1/auth", authRouter);
+
+app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
+  app.get("/", (req, res) => {
+    res.send("hello from home");
+  });
   try {
     await connectDB(process.env.MONGO_URI);
     console.log("Database connected successfully");
