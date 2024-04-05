@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { createJWT } = require("../utils");
 const {
   StatusCodes: { CREATED, OK },
 } = require("http-status-codes");
@@ -8,11 +9,15 @@ const register = async (req, res) => {
   req.body.role = (await User.countDocuments({})) === 0 ? "admin" : "user";
 
   const user = await User.create(req.body);
+  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+  const token = createJWT({ payload: tokenUser });
+
   res.status(CREATED).json({
     status: "success",
     data: {
       message: "User registered successfully",
       user,
+      token,
     },
   });
 };
