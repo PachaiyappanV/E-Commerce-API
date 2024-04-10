@@ -3,6 +3,7 @@ const {
 } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
+  console.log(err);
   let customError = {
     statusCode: err.statusCode || INTERNAL_SERVER_ERROR,
     message: err.message || "something went wrong try again later",
@@ -10,7 +11,9 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 
   if (err.name === "ValidationError") {
     customError.statusCode = BAD_REQUEST;
-    customError.message = err;
+    customError.message = Object.values(err.errors)
+      .map((item) => item.message)
+      .join(",");
   }
   if (err.code && err.code === 11000) {
     customError.statusCode = BAD_REQUEST;
