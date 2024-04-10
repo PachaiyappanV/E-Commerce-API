@@ -2,6 +2,7 @@ const User = require("../models/User");
 const {
   StatusCodes: { OK },
 } = require("http-status-codes");
+const { NotFoundError } = require("../errors");
 
 const getAllUsers = async (req, res) => {
   const users = await User.find({ role: "user" }).select("-password");
@@ -13,7 +14,17 @@ const getAllUsers = async (req, res) => {
   });
 };
 const getSingleUser = async (req, res) => {
-  res.send("getsingleuser");
+  const { id: userId } = req.params;
+  const user = await User.findOne({ _id: userId }).select("-password");
+  if (!user) {
+    throw new NotFoundError(`No user found with id ${userId}`);
+  }
+  res.status(OK).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
 };
 const showCurrentUser = async (req, res) => {
   res.send("showcurrentuser");

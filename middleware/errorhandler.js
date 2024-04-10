@@ -21,7 +21,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
   if (err.name === "CastError") {
     customError.statusCode = BAD_REQUEST;
-    customError.message = err;
+    customError.message = err.message;
   }
 
   res.status(customError.statusCode).json({
