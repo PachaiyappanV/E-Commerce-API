@@ -27,7 +27,12 @@ const getSingleUser = async (req, res) => {
   });
 };
 const showCurrentUser = async (req, res) => {
-  res.send("showcurrentuser");
+  res.status(OK).json({
+    status: "sucess",
+    data: {
+      currentUser: req.user,
+    },
+  });
 };
 const updateUser = async (req, res) => {
   res.send("updateuser");
