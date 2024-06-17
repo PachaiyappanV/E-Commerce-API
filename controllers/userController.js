@@ -7,6 +7,7 @@ const {
   BadRequestError,
   UnauthenticatedError,
 } = require("../errors");
+const { attachCookiesToResponse, createTokenUser } = require("../utils");
 
 const getAllUsers = async (req, res) => {
   const users = await User.find({ role: "user" }).select("-password");
@@ -39,7 +40,22 @@ const showCurrentUser = async (req, res) => {
   });
 };
 const updateUser = async (req, res) => {
-  res.send("updateuser");
+  const { email, name } = req.body;
+  if (!email || !name) {
+    throw new BadRequestError("Please provide all values");
+  }
+  const user = await User.findOne({ _id: req.user.userId });
+  user.name = name;
+  user.email = email;
+  await user.save();
+  const tokenUser = createTokenUser({ user });
+  attachCookiesToResponse({ res, tokenUser });
+  res.status(OK).json({
+    status: "success",
+    data: {
+      user: tokenUser,
+    },
+  });
 };
 const updateUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
