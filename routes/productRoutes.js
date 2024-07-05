@@ -18,7 +18,7 @@ const {
 router
   .route("/")
   .post([authenticateUser, authorizePermissions("admin")], createProduct)
-  .getAllProducts(getAllProducts);
+  .get(getAllProducts);
 
 router
   .route("/uploadImage")
