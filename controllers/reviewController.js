@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const Review = require("../models/Review");
 const { NotFoundError, BadRequestError } = require("../errors");
 const { StatusCodes } = require("http-status-codes");
+const { checkPermission } = require("../utils");
 
 const createReview = async (req, res) => {
   const { product: productId } = req.body;
@@ -54,7 +55,28 @@ const getSingleReview = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
-  res.send("update review");
+  const { id: reviewId } = req.params;
+  const { rating, title, comment } = req.body;
+
+  const review = await Review.findOne({ _id: reviewId });
+
+  if (!review) {
+    throw new CustomError.NotFoundError(`No review with id ${reviewId}`);
+  }
+
+  checkPermission(req.user, review.user);
+
+  review.rating = rating;
+  review.title = title;
+  review.comment = comment;
+
+  await review.save();
+  res.status(StatusCodes.OK).json({
+    status: "success",
+    data: {
+      review,
+    },
+  });
 };
 
 const deleteReview = async (req, res) => {
