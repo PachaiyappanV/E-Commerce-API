@@ -27,7 +27,14 @@ const createReview = async (req, res) => {
 };
 
 const getAllReviews = async (req, res) => {
-  res.send("get all review");
+  const reviews = await Review.find({});
+
+  res.status(StatusCodes.OK).json({
+    status: "success",
+    data: {
+      reviews,
+    },
+  });
 };
 
 const getSingleReview = async (req, res) => {
