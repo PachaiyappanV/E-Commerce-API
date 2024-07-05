@@ -3,7 +3,7 @@ const {
 } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
-  console.log(err);
+  console.log(err.message);
   let customError = {
     statusCode: err.statusCode || INTERNAL_SERVER_ERROR,
     message: err.message || "something went wrong try again later",
@@ -27,7 +27,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
 
   res.status(customError.statusCode).json({
-    status: customError.statusCode === BAD_REQUEST ? "error" : "fail",
+    status: customError.statusCode === INTERNAL_SERVER_ERROR ? "error" : "fail",
     message: customError.message,
   });
 };
