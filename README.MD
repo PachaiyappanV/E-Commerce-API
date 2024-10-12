@@ -79,8 +79,8 @@ A **robust and scalable REST API** for powering your e-commerce platform built w
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/e-commerce-api.git
-    cd e-commerce-api
+    git clone https://github.com/PachaiyappanV/E-Commerce-api.git
+    cd E-Commerce-api
     ```
 
 2. **Install dependencies:**
