@@ -5,7 +5,6 @@
 ![Express](https://img.shields.io/badge/Express-4.17+-black?style=flat-square&logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)
 ![JWT](https://img.shields.io/badge/JWT-secure-orange?style=flat-square&logo=jsonwebtokens)
-![MIT License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
 A **robust and scalable REST API** for powering your e-commerce platform built with **Node.js**, **Express**, and **MongoDB**. From user authentication to product management and orders, this API offers everything you need to create a fully functional online store backend.
 
@@ -135,4 +134,4 @@ heroku config:set JWT_SECRET=<your-secret-key>
 
 ---
 
-> Developed by **[Your Name](https://your-portfolio-link.com)** with ❤️ in Node.js.
+> Developed by **[pachaiyappan](https://your-portfolio-link.com)** with ❤️ in Node.js.
