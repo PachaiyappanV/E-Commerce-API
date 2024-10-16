@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   authenticateUser,
   authorizePermissions,
-} = require("../middleware/authentication");
+} = require("../middleware/full-auth");
 
 const {
   createProduct,

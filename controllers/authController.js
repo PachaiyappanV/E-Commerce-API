@@ -4,6 +4,7 @@ const {
   StatusCodes: { CREATED, OK },
 } = require("http-status-codes");
 const { BadRequestError, UnauthenticatedError } = require("../errors");
+const { token } = require("morgan");
 
 const register = async (req, res) => {
   //first registered user is an admin
@@ -12,7 +13,7 @@ const register = async (req, res) => {
   const user = await User.create(req.body);
   const tokenUser = createTokenUser({ user });
 
-  attachCookiesToResponse({ res, tokenUser });
+  const token = attachCookiesToResponse({ res, tokenUser });
 
   res.status(CREATED).json({
     status: "success",
@@ -20,6 +21,7 @@ const register = async (req, res) => {
       message: "User registered successfully",
       user: tokenUser,
     },
+    token,
   });
 };
 
@@ -38,12 +40,13 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Invalid credentials");
   }
   const tokenUser = createTokenUser({ user });
-  attachCookiesToResponse({ res, tokenUser });
+  const token = attachCookiesToResponse({ res, tokenUser });
   res.status(OK).json({
     status: "success",
     data: {
       user: tokenUser,
     },
+    token,
   });
 };
 
@@ -51,6 +54,9 @@ const logout = async (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
+  });
+  res.status(OK).json({
+    token: "logout",
   });
 };
 
