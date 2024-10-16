@@ -1,4 +1,4 @@
-const CustomError = require("../errors");
+const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 const { isTokenValid } = require("../utils/jwt");
 
 const authenticateUser = async (req, res, next) => {
@@ -14,7 +14,7 @@ const authenticateUser = async (req, res, next) => {
   }
 
   if (!token) {
-    throw new CustomError.UnauthenticatedError("Authentication invalid");
+    throw new UnauthenticatedError("Authentication invalid");
   }
 
   try {
@@ -22,7 +22,7 @@ const authenticateUser = async (req, res, next) => {
     req.user = { name, userId, role };
     next();
   } catch (error) {
-    throw new CustomError.UnauthenticatedError("Authentication invalid");
+    throw new UnauthenticatedError("Authentication invalid");
   }
 };
 
