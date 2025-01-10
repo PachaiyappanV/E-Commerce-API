@@ -4,7 +4,7 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  - url: https://e-commerce-api-x3cz.onrender.com
+  - url: https://e-commerce-api-x3cz.onrender.com/api/v1
     variables: {}
 paths:
   /auth/login:
